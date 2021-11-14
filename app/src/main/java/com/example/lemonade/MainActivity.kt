@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
     // Default the squeezeCount to -1
     private var squeezeCount = -1
 
+    private var show = -1
+
     private var lemonTree = LemonTree()
     private var lemonImage: ImageView? = null
 
@@ -104,6 +106,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         else if(lemonadeState == SQUEEZE){
+            showSnackbar()
             lemonadeState = DRINK
         }
         else if(lemonadeState == DRINK)
@@ -111,6 +114,7 @@ class MainActivity : AppCompatActivity() {
         else {
             lemonadeState = SELECT
             lemonSize = -1
+            show = -1
         }
     }
 
@@ -176,9 +180,10 @@ class MainActivity : AppCompatActivity() {
      * Long clicking the lemon image will show how many times the lemon has been squeezed.
      */
     private fun showSnackbar(): Boolean {
-        if (lemonadeState != SQUEEZE) {
+        if (lemonadeState != SQUEEZE || show == 1) {
             return false
         }
+        show = 1
         val squeezeText = getString(R.string.squeeze_count, squeezeCount)
         Snackbar.make(
             findViewById(R.id.constraint_Layout),
